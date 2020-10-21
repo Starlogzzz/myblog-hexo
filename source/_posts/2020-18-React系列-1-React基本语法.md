@@ -168,7 +168,7 @@ this.setState({
 })
 ```
 ### state数据不可变
-因为更改state会重新渲染页面，所以我们有时并不希望一些无关的state修改也会重新渲染页面，所以就出现了**shouldComponentUpdate**和**PureComponent**，关于他俩可以阅读 (官方文档)[https://zh-hans.reactjs.org/docs/optimizing-performance.html#shouldcomponentupdate-in-action] 这里不展开讨论，但它们两个都会对比新旧state的值从而判断要不要重新渲染，所以我们不能直接更改state中引用类型的值。
+因为更改state会重新渲染页面，所以我们有时并不希望一些无关的state修改也会重新渲染页面，所以就出现了**shouldComponentUpdate**，**memo**和**PureComponent**，关于这些可以阅读 (官方文档)[https://zh-hans.reactjs.org/docs/optimizing-performance.html#shouldcomponentupdate-in-action] 这里不展开讨论，但它们两个都会对比新旧state的值从而判断要不要重新渲染，所以我们不能直接更改state中引用类型的值。
 ```jsx
 addMember() {
   const peo = {name: "侯国玉", age: 20}
