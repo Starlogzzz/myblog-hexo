@@ -1,5 +1,5 @@
 ---
-title: 2020-20-React系列-3.Redux
+title: React系列-3.Redux
 date: 2020-10-22 08:58:05
 tags:
   - React
