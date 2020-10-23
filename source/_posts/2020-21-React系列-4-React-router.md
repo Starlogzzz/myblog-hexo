@@ -152,5 +152,71 @@ export default withRouter(App)
 这里其实还是用props下面的一个对象，这个对象叫做**location**对象，其中**location.search**就是传递过来的参数。但我们还需要对其做一些处理，不太方便。
 
 ### Link中to传递
+Link中的to可以传递一个对象过去，例如：
+```jsx
+<NavLink to={{
+  pathname: "/detail3",
+  search: "name=wuhu&age=21",
+  state: info // 此处传入一个对象(info)为参数
+}} activeClassName="active-link">详情3</NavLink>
+```
+参数解释：
++ pathname: A string representing(代表) the path to link to.
++ search: A string representation of query parameters.(在url后面拼接的参数)
++ hash: A hash to put in the URL, e.g. #a-hash.(hash类型的时候传入hash)
++ state: State to persist to the location.(保存一个状态到location)
+到时候通过location就可以拿到对应参数传递的值了。
+
+## react-router-config
+我们还是希望有一种更简便的配置路由的方法，比如vue router中的配置。实际上我们可以使用react-router-config来像vue一样配置路由。yarn add react-router-config
+```js router文件夹下index.js
+const routes = [
+  {
+    path: "/",
+    exact: true,
+    component: Home
+  },
+  {
+    path: "/about",
+    component: About,
+    routes: [
+      {
+        path: "/about",
+        exact: true,
+        component: AboutComponent
+      },
+      {
+        path: "/about/money",
+        component: AboutMoneyComponent
+      },
+      {
+        path: "/about/future",
+        component: AboutFutureComponent
+      },
+      {
+        path: "/about/join",
+        component: JoinToComponent
+      }
+    ]
+  },
+  {
+    path: "/profile",
+    component: Profile
+  },
+  {
+    path: "/user",
+    component: User
+  }
+]
+export default routes
+```
+在页面中使用需要使用renderRoutes。
+```jsx
+import { renderRoutes } from 'react-router-config';
+import routes from './router/index';
+// 在原本<Switch></Switch>标签及内容的部分替换为
+{renderRoutes(routes)}
+```
+
 
 
