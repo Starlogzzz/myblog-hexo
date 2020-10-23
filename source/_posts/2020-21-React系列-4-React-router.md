@@ -217,6 +217,7 @@ import routes from './router/index';
 // 在原本<Switch></Switch>标签及内容的部分替换为
 {renderRoutes(routes)}
 ```
+通过renderRoutes的方式渲染的页面的props下会有一个**route**属性，route下会有一个routes属性，储存嵌套路由的地址。
 
 
 
