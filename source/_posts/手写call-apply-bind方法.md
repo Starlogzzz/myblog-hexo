@@ -29,7 +29,7 @@ date: 2020-06-23 00:00:00
     })(Function.prototype)
 ```
 
-向Function.prototype上添加call方法,call方法接受两个参数,第一个参数默认为window,第二个参数是需要传给调用call方法的参数
+向Function.prototype上添加call方法，call方法接受两个参数，第一个参数默认为window，第二个参数是需要传给调用call方法的参数。
 
 ```js
     context.$fn = this;
@@ -37,8 +37,7 @@ date: 2020-06-23 00:00:00
     delete context.$fn;
     return result;
 ```
-
-把this指向调用call的对象,调用$fn把返回结果给return出去，再把添加的$fn删除
+这里使用``对象.函数()``这种方法改变this指向，这样this就会指向这个“对象”，调用$fn把返回结果给return出去，再把添加的$fn删除。
 
 ## 2. apply
 
