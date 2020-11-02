@@ -39,6 +39,7 @@ emit的第一个参数是type，接下来的参数是通过...args的方式引�
 表示为对组件真正实例的引用，其实就是ReactDOM.render()返回的组件实例。ref可以挂载到组件上也可以是dom元素上。
 + 挂到组件(class声明的组件)上的ref表示对组件实例的引用。不能在函数式组件上使用 ref 属性，因为它们没有实例：
 + 挂载到dom元素上时表示具体的dom元素节点。
+
 ```jsx
 import React, { PureComponent,createRef } from 'react'
 export default class App extends PureComponent {
@@ -180,6 +181,7 @@ StrictMode主要用于：
 + 关于使用废弃的 findDOMNode 方法的警告
 + 检测意外的副作用
 + 检测过时的 context API
+
 ## React中的css
 React中写css一直是一个让人头疼的事情，至今为止也有很多解决方案，但也从来没有一种统一天下的方案，现在流行的包括：内联样式，普通css，module.css,css in js。这里我还是最喜欢使用css in js的方式，所以这里就只写css in js了。
 这里使用styled-components来写css。yarn add styled-components

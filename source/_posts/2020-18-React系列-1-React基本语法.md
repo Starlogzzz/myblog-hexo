@@ -106,7 +106,7 @@ ChildCpn.defaultProps = { // 默认值
 ```
 组件*ChildCpn*验证父组件传来的值。
 #### 子传父
-其实和父传子差不多，但是父组件下方一个函数给子组件，子组件接受函数并调用函数传入一个参数，父组件就可以拿到子组件想给父组件传递的值，也就是函数的参数。比如：
+其实和父传子差不多，但是父组件下放一个函数给子组件，子组件接受函数并调用函数传入一个参数，父组件就可以拿到子组件想给父组件传递的值，也就是函数的参数。比如：
 ```jsx
 <TabControl title={this.title} changeName={index => this.changeName(index)}/>
 ```
@@ -197,8 +197,9 @@ changeMessage() {
 那setState就一直是异步的吗?并不是，这两种情况的setState都是同步的：
 + 将setState放入到定时器中
 + 使用原生dom调用setState
+
 ### setState的合并
-```jsx
+```
 addCount() {
   // setState本身的合并(只有最后一个生效，会覆盖)
   this.setState({

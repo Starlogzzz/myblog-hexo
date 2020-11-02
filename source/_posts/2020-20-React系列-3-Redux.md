@@ -25,6 +25,7 @@ Redux 可以用这三个基本原则来描述：
 + constans.js
 + index.js
 + reducer.js
+
 接下来就来介绍他们的作用。
 
 ### Action
@@ -32,6 +33,7 @@ Redux要求我们通过action来更新数据：
 + 所有数据的变化，必须通过派发（dispatch）action来更新
 + action是一个普通的JavaScript对象，用来描述这次更新的type和content
 一般来说你会通过 store.dispatch() 将 action 传到 store。
+
 ```js actionCreater.js
 import {
   ADD_NUMBER,
@@ -66,6 +68,7 @@ export const DECREMENT = "DECREMENT";
 Reducers 指定了应用状态的变化如何响应 actions 并发送到 store 的，记住 **actions 只是描述了有事情发生了这一事实，并没有描述应用如何更新 state**。
 + reducer是一个纯函数
 + reducer做的事情就是将传入的state和action结合起来生成一个新的state
+
 ```js reducer.js
 import {
   ADD_NUMBER,

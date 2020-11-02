@@ -34,6 +34,7 @@ import {
 + Router中包含了对路径改变的监听，并且会将相应的路径传递给子组件
 + BrowserRouter使用history模式
 + HashRouter使用hash模式
+
 ```jsx App.js
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -54,6 +55,7 @@ ReactDOM.render(
 + 通常路径的跳转是使用Link组件，最终会被渲染成a元素
 + NavLink是在Link基础之上增加了一些样式属性
 + to属性：Link中最重要的属性，用于设置跳转到的路径
+
 ```jsx
 <NavLink exact to="/" activeClassName="active-link" activeStyle={{color: "red"}}>首页</NavLink>
 <NavLink to="/about" activeClassName="active-link">关于</NavLink>
@@ -70,6 +72,7 @@ ReactDOM.render(
 + path属性：用于设置匹配到的路径
 + component属性：设置匹配到路径后，渲染的组件
 + exact：同上，只有精准匹配到完全一致的路径，才会渲染对应的组件
+
 实际上Link和Route就相当于Vue的router-link和router-view。
 ```jsx
 <Route exact path="/" component={Home}/>
@@ -143,6 +146,7 @@ export default withRouter(App)
 + 如果我们将path在Route匹配时写成/detail/:id，那么 /detail/abc、/detail/123都可以匹配到该Route，并且进行显示 
 + 这个匹配规则，我们就称之为动态路由
 + 通常情况下，使用动态路由可以为路由传递参数。
+
 上面提到了使用react router渲染的页面的props中会有一个location对象，除此之外还有一个**match**对象，match对象其实就是存储一些有关url的参数，其中params就是我们使用动态路由传递的参数。
 
 ### search
@@ -165,6 +169,7 @@ Link中的to可以传递一个对象过去，例如：
 + search: A string representation of query parameters.(在url后面拼接的参数)
 + hash: A hash to put in the URL, e.g. #a-hash.(hash类型的时候传入hash)
 + state: State to persist to the location.(保存一个状态到location)
+
 到时候通过location就可以拿到对应参数传递的值了。
 
 ## react-router-config
