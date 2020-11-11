@@ -5,7 +5,7 @@ tags:
   - ts
 categories: 
   - ts
-cover: https://s1.ax1x.com/2020/11/05/BRcVrd.jpg
+cover: https://s1.ax1x.com/2020/11/11/BXsGr9.jpg
 abbrlink: 202025
 ---
 
