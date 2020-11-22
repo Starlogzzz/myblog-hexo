@@ -96,11 +96,11 @@ favicon: /img/favicon.png
 
 # Avatar (頭像)
 avatar:
-  img: https://imgchr.com/i/D1Lu1H
+  img: https://s3.ax1x.com/2020/11/21/D1Lu1H.jpg
   effect: false # 頭像會一直轉圈
 
 # the banner image of home page
-index_img: https://imgchr.com/i/D1qO00
+index_img: https://s3.ax1x.com/2020/11/21/D1qO00.md.jpg
 
 # Website Background (設置網站背景)
 # can set it to color or image (可設置圖片 或者 顔色)
