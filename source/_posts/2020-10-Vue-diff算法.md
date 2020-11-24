@@ -231,4 +231,69 @@ updateChildren主要作用是用一种较高效的方式比对新旧两个VNode�
 ```
 
 具体每一步都做了什么可以看这篇文章
-[深入 Vue2.x 的虚拟 DOM diff 原理]: https://cloud.tencent.com/developer/article/1006029 
+[深入 Vue2.x 的虚拟 DOM diff 原理]: https://cloud.tencent.com/developer/article/1006029
+
+## key
+补充一下key的作用，这个问题之前在面快手的时候被问到过，当时回答的不是很清晰，今天来彻底梳理一下key的作用。
+
+> 官方文档对key的阐述：` key ` 的特殊 attribute 主要用在 Vue 的虚拟 DOM 算法，在新旧 nodes 对比时辨识 VNodes。如果不使用 key，Vue 会使用一种最大限度减少动态元素并且尽可能的尝试就地修改/复用相同类型元素的算法。而使用 key 时，它会基于 key 的变化重新排列元素顺序，并且会移除 key 不存在的元素。
+
+大概意思差不多都能懂，但vue内部到底是怎么根据key来进行diff的呢？我们来对比一下不使用key和使用key时，vue的更新操作。
+
+### 不使用key的情况
+简单写了一个demo，定义一个数组` items = [1,2,3,4,5] `在mounted中设置一个定时器，一秒之后在2的后面添加一个6
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <p v-for="item in items">{{item}}</p>
+  </div>
+  <script src="vue.js"></script>
+  <script>
+    let app = new Vue({
+      el: "#app",
+      data() {
+        return {
+          items: [1,2,3,4,5]
+        }
+      },
+      mounted() {
+        setTimeout(() => {
+          this.items.splice(2, 0, 6)
+        }, 1000)
+      }
+    })
+  </script>
+</body>
+</html>
+```
+我们需要打断点进行调试，在这个demo中，我们可以打断点时搜索：` while (old ` 找到updateChildren中比较元素那一行，在那一行上打一个条件断点：` oldStartVnode.tag === "p" `，因为我们只关心p标签是怎么进行diff的，而不关心内部的值是怎么更新的，所以添加了这个条件。
+
+[![DNESW8.png](https://s3.ax1x.com/2020/11/24/DNESW8.png)](https://imgchr.com/i/DNESW8)
+运行到这一行就会进入比较新旧的首节点，你也可以在右侧查看这两个节点的具体信息，但实际上我们知道它们是相同节点，并没有发生变化。接下来我们点进去看一下sameVnode函数。[![DNVVnH.png](https://s3.ax1x.com/2020/11/24/DNVVnH.png)](https://imgchr.com/i/DNVVnH)你可以看到，我们上来就会比较两个节点的key是否相等，不相等的话直接返回false，但因为我们并没有添加key，所以这两个key都是` undefined `它们是相同的，所以进入下一个比较，比较一下它们的tag，再比较一下它们是不是注释这种。
+
+因为第一个p标签并没有发生变化，所以它并不需要被更新，接下来去比较下一个p标签，直到比较到第三个p标签，也就是值为3的那个，但在第三个p标签比较sameVnode时，它们还是相同标签，所以会强行去更新内容。[![DNYXi8.png](https://s3.ax1x.com/2020/11/24/DNYXi8.png)](https://imgchr.com/i/DNYXi8)可以看到，3被强行更新成了6。但这并不合适，因为接下来所有元素都需要这样被强行更新，4更新成3[![DNtFoV.png](https://s3.ax1x.com/2020/11/24/DNtFoV.png)](https://imgchr.com/i/DNtFoV)然后5更新成4，最后在末尾添加一个5这样，也就是说如果我们不使用key的话，仅仅插入一个元素，需要这个元素之后的**所有元素都进行一次更新**，这显然会消耗很多的性能。
+
+### 使用key
+使用key的话就不同了，我们比较这两个新旧节点
+> 1,2,3,4,5
+  1,2,6,3,4,5
+
+因为前两次比较都是相同的，所以直接来看重点第三次
+> 3,4,5
+  6,3,4,5
+
+这次首先比较首节点，也就是3和6，通过key我们可以得知他们不相同，所以我们会跳去比较尾结点，他们都是5，相同。下一次就变成了比较
+> 3,4
+  6,3,4
+
+之后还会比较尾结点，直到剩余一个6。最后我们计算出6所在的位置，直接插入一个6即可。[![DNUZr9.png](https://s3.ax1x.com/2020/11/24/DNUZr9.png)](https://imgchr.com/i/DNUZr9)
+
+所以从实践中我们可以得出，使用key之后我们仅仅执行了一次插入操作，这比不使用key时操作简便很多，但我们这个例子很简单，要是某个页面有1000个元素，在第二个元素之后插入一个元素，不使用key的话需要更新998次！！而使用key仅需插入一次。
+
