@@ -13,7 +13,7 @@ abbrlink: 8109
 cover: ../img/2.png
 date: 2020-06-23 00:00:00
 ---
-## 改变this指向方法
+# 改变this指向方法
 ## 1.call
 
 ```js
@@ -161,3 +161,29 @@ function distinct(arr) {
 }
 ```
 
+# 手写new
+```js
+function myNew(Func, ...args) {
+  if(typeof Func !== "function") return;
+  let obj = Object.create(Func.prototype);
+  let result = Func.call(obj, ...args);
+
+  if(result !== null && typeof result === "object") {
+    return result;
+  }
+  return obj;
+}
+```
+
+# 手写Instanceof
+```js
+function myInstanceof(a, b) {
+  if(typeof a !== "object" || b === null) return false;
+  let proto = Object.getPrototypeOf(a); // 拿到参数的原型
+  while(true) {
+    if(proto == null) return false;
+    if(proto == b.prototype) return true;
+    proto = Object.getPrototypeOf(proto);
+  }
+}
+```
